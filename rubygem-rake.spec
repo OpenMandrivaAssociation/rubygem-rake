@@ -1,99 +1,63 @@
-%define	majorver	0.9.2
-%define	rpmminorver	.%(echo %preminorver | sed -e 's|^\\.\\.*||')
-%define	fullver	%{majorver}%{?preminorver}
-
-%define	ruby_sitelib	%(ruby -rrbconfig -e "puts Config::CONFIG['sitelibdir']")
-%define	gemdir		%(ruby -rubygems -e 'puts Gem::dir' 2>/dev/null)
-%define	gemname	rake
-%define	geminstdir	%{gemdir}/gems/%{gemname}-%{fullver}
-
-%define	rubyabi	1.8
+# Generated from rake-0.9.2.2.gem by gem2rpm5 0.6.5 -*- rpm-spec -*-
+%define	rbname	rake
 
 Summary:	Ruby based make-like utility
-Name:		rubygem-%{gemname}
+Name:		rubygem-%{rbname}
 
-Version:	%{majorver}
-Release:	%mkrel 1
+Version:	0.9.2.2
+Release:	1
 Group:		Development/Ruby
-License:	MIT
+License:	GPLv2+ or Ruby
 URL:		http://rake.rubyforge.org
-Source0:	http://gems.rubyforge.org/gems/%{gemname}-%{fullver}.gem
-
-Requires:	ruby-RubyGems
-Requires:	ruby(abi) = %{rubyabi}
-BuildRequires:	ruby-RubyGems
-BuildRequires:	ruby(abi) = %{rubyabi}
-## %%check
-BuildRequires:	ruby-flexmock
-BuildRequires:	rubygem(minitest)
+Source0:	http://gems.rubyforge.org/gems/%{rbname}-%{version}.gem
+BuildRequires:	rubygems >= 1.3.2
 BuildArch:	noarch
-Provides:	rubygem(%{gemname}) = %{version}-%{release}
 
 %description
-Rake is a Make-like program implemented in Ruby. Tasks and dependencies are
-specified in standard Ruby syntax.
+Rake is a Make-like program implemented in Ruby. Tasks and dependencies
+arespecified in standard Ruby syntax.
 
 %package	doc
 Summary:	Documentation for %{name}
-Group:		Development/Ruby
-# Directory ownership issue
-Requires:	%{name} = %{version}-%{release}
+Group:		Books/Computer books
+Requires:	%{name} = %{EVRD}
 
-%description    doc
-This package contains documentation for %{name}.
-
+%description	doc
+Documents, RDoc & RI documentation for %{name}.
 
 %prep
-%setup -q -c -T
+%setup -q
 
 %build
-mkdir -p .%{gemdir}
-gem install -V \
-	--local \
-	--install-dir $(pwd)/%{gemdir} \
-	--bindir $(pwd)%{_bindir} \
-	--force \
-	--rdoc \
-	%{SOURCE0}
+%gem_build
 
 %install
-mkdir -p %{buildroot}%{gemdir}
-cp -a .%{_prefix}/* %{buildroot}%{_prefix}/
-
-# rpmlint issue
-find %{buildroot}%{geminstdir}/{lib,test} -type f | \
-	xargs sed -i -e '\@^#!/usr.*ruby@d'
-find %{buildroot}%{geminstdir}/{doc,lib,test} -type f | xargs chmod 0644
-
-# cleanup
-rm %{buildroot}%{geminstdir}/.gemtest
-rm -f %{buildroot}%{geminstdir}/RRR
-
-%check
-pushd .%{geminstdir}
-# Someone please check why test fails!!
-# Note that on ppc64 the following test causes segv, perhaps
-# bug in ruby itself, needs investigating.
-ruby -Ilib ./bin/rake test || \
-	echo "Please some investigate!!"
+%gem_install
 
 %files
-%defattr(-,root,root,-)
 %{_bindir}/rake
-%dir	%{geminstdir}
-%doc	%{geminstdir}/README.rdoc
-%doc	%{geminstdir}/MIT-LICENSE
-%doc	%{geminstdir}/TODO
-%doc	%{geminstdir}/CHANGES
-%{geminstdir}/bin
-%{geminstdir}/lib
-%{gemdir}/cache/%{gemname}-%{fullver}.gem
-%{gemdir}/specifications/%{gemname}-%{fullver}.gemspec
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}/bin
+%{ruby_gemdir}/gems/%{rbname}-%{version}/bin/rake
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}/doc
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}/doc/release_notes
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}/lib
+%{ruby_gemdir}/gems/%{rbname}-%{version}/lib/*.rb
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}/lib/rake
+%{ruby_gemdir}/gems/%{rbname}-%{version}/lib/rake/*.rb
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}/lib/rake/contrib
+%{ruby_gemdir}/gems/%{rbname}-%{version}/lib/rake/contrib/*.rb
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}/lib/rake/ext
+%{ruby_gemdir}/gems/%{rbname}-%{version}/lib/rake/ext/*.rb
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}/lib/rake/loaders
+%{ruby_gemdir}/gems/%{rbname}-%{version}/lib/rake/loaders/*.rb
+%{ruby_gemdir}/specifications/%{rbname}-%{version}.gemspec
 
-%files	doc
-%defattr(-,root,root,-)
-%{geminstdir}/Rakefile
-%{geminstdir}/install.rb
-%{geminstdir}/doc
-%{geminstdir}/test/
-%{gemdir}/doc/%{gemname}-%{fullver}/
+%files doc
+%{ruby_gemdir}/doc/%{rbname}-%{version}
+%{ruby_gemdir}/gems/%{rbname}-%{version}/*.rdoc
+%{ruby_gemdir}/gems/%{rbname}-%{version}/CHANGES
+%{ruby_gemdir}/gems/%{rbname}-%{version}/MIT-LICENSE
+%{ruby_gemdir}/gems/%{rbname}-%{version}/TODO
+%{ruby_gemdir}/gems/%{rbname}-%{version}/doc/*.rdoc
+%{ruby_gemdir}/gems/%{rbname}-%{version}/doc/release_notes/*.rdoc
