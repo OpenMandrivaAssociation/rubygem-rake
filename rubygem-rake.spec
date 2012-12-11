@@ -61,3 +61,18 @@ Documents, RDoc & RI documentation for %{name}.
 %{ruby_gemdir}/gems/%{rbname}-%{version}/TODO
 %{ruby_gemdir}/gems/%{rbname}-%{version}/doc/*.rdoc
 %{ruby_gemdir}/gems/%{rbname}-%{version}/doc/release_notes/*.rdoc
+
+
+%changelog
+* Wed Feb 15 2012 Per Øyvind Karlsen <peroyvind@mandriva.org> 0.9.2.2-2
++ Revision: 774161
+- mass rebuild of ruby packages against ruby 1.9.1
+
+* Tue Jan 24 2012 Alexander Khrukin <akhrukin@mandriva.org> 0.9.2.2-1
++ Revision: 767904
+- version update
+
+* Wed Sep 07 2011 Alexander Barakin <abarakin@mandriva.org> 0.9.2-1
++ Revision: 698595
+- imported package rubygem-rake
+
