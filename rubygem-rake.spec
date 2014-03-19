@@ -1,21 +1,20 @@
-# Generated from rake-0.9.2.2.gem by gem2rpm5 0.6.5 -*- rpm-spec -*-
-%define	rbname	rake
+%define rbname   rake
 
-Summary:	Ruby based make-like utility
-Name:		rubygem-%{rbname}
-
-Version:	0.9.2.2
-Release:	2
-Group:		Development/Ruby
-License:	GPLv2+ or Ruby
-URL:		http://rake.rubyforge.org
-Source0:	http://gems.rubyforge.org/gems/%{rbname}-%{version}.gem
-BuildRequires:	rubygems >= 1.3.2
-BuildArch:	noarch
+Summary:    Simple ruby build program with capabilities similar to make
+Name:       rubygem-%{rbname}
+Version:    10.0.4
+Release:    1
+License:    MIT
+Group:      Development/Ruby
+URL:        http://rake.rubyforge.org/
+Source0:    http://rubygems.org/downloads/%{rbname}-%{version}.gem
+BuildArch:  noarch
+BuildRequires: rubygems
+BuildRequires: p7zip
 
 %description
-Rake is a Make-like program implemented in Ruby. Tasks and dependencies
-arespecified in standard Ruby syntax.
+This package contains Rake, a simple ruby build program with capabilities
+similar to make.
 
 %package	doc
 Summary:	Documentation for %{name}
@@ -34,8 +33,16 @@ Documents, RDoc & RI documentation for %{name}.
 %install
 %gem_install
 
+# Install manpage
+mkdir -p %{buildroot}%{_mandir}/man1/
+# use 7z and not gzip, as the file is corrupted.
+# For some reason it works fine with 7z.
+7z e doc/%{rbname}.1.gz 
+install %{rbname}.1 %{buildroot}%{_mandir}/man1/rake.1
+
 %files
 %{_bindir}/rake
+%{_mandir}/man1/*
 %dir %{ruby_gemdir}/gems/%{rbname}-%{version}
 %dir %{ruby_gemdir}/gems/%{rbname}-%{version}/bin
 %{ruby_gemdir}/gems/%{rbname}-%{version}/bin/rake
@@ -61,18 +68,3 @@ Documents, RDoc & RI documentation for %{name}.
 %{ruby_gemdir}/gems/%{rbname}-%{version}/TODO
 %{ruby_gemdir}/gems/%{rbname}-%{version}/doc/*.rdoc
 %{ruby_gemdir}/gems/%{rbname}-%{version}/doc/release_notes/*.rdoc
-
-
-%changelog
-* Wed Feb 15 2012 Per Øyvind Karlsen <peroyvind@mandriva.org> 0.9.2.2-2
-+ Revision: 774161
-- mass rebuild of ruby packages against ruby 1.9.1
-
-* Tue Jan 24 2012 Alexander Khrukin <akhrukin@mandriva.org> 0.9.2.2-1
-+ Revision: 767904
-- version update
-
-* Wed Sep 07 2011 Alexander Barakin <abarakin@mandriva.org> 0.9.2-1
-+ Revision: 698595
-- imported package rubygem-rake
-
