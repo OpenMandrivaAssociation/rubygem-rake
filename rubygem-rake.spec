@@ -3,7 +3,7 @@
 Summary:    Simple ruby build program with capabilities similar to make
 Name:       rubygem-%{rbname}
 Version:    10.0.4
-Release:    1
+Release:    2
 License:    MIT
 Group:      Development/Ruby
 URL:        http://rake.rubyforge.org/
