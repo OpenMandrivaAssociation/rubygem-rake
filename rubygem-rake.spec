@@ -8,7 +8,7 @@ Release:    2
 License:    MIT
 Group:      Development/Ruby
 URL:        http://rake.rubyforge.org/
-Source0:    http://rubygems.org/downloads/%{gem_name}-%{version}.gem
+Source0:    http://rubygems.org/downloads/rake-%{version}.gem
 BuildArch:  noarch
 BuildRequires: rubygems
 BuildRequires: p7zip
@@ -26,14 +26,6 @@ similar to make.
 %install
 %gem_install
 
-# Install manpage
-##mkdir -p %%{buildroot}%%{_mandir}/man1/
-# use 7z and not gzip, as the file is corrupted.
-# For some reason it works fine with 7z.
-#7z e doc/%%{gem_name}.1.gz 
-#install %%{gem_name}.1 %%{buildroot}%%{_mandir}/man1/rake.1
-
 %files
 %{_bindir}/rake
-#%%{_mandir}/man1/*
 %{gem_files}
