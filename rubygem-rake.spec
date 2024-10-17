@@ -7,7 +7,7 @@ Version:    13.0.6
 Release:    2
 License:    MIT
 Group:      Development/Ruby
-URL:        http://rake.rubyforge.org/
+URL:        https://rake.rubyforge.org/
 Source0:    http://rubygems.org/downloads/rake-%{version}.gem
 BuildArch:  noarch
 BuildRequires: rubygems
